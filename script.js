@@ -169,3 +169,37 @@ code {
 }
 
 injectSyntaxHighlighterStyles();
+
+// Создаем кнопку
+const copyButton = document.createElement("button");
+copyButton.textContent = "Скопировать HTML";
+copyButton.style.position = "fixed";
+copyButton.style.top = "10px";
+copyButton.style.left = "10px";
+copyButton.style.zIndex = "1000";
+copyButton.style.padding = "10px 15px";
+copyButton.style.backgroundColor = "#007bff";
+copyButton.style.color = "#fff";
+copyButton.style.border = "none";
+copyButton.style.borderRadius = "5px";
+copyButton.style.cursor = "pointer";
+
+
+document.body.insertBefore(copyButton, document.body.firstChild);
+function escapeBackticks(str) {
+    return str.replace(/`/g, "\\`"); // Заменяем ` на \`
+}
+
+copyButton.addEventListener("click", async () => {
+    try {
+        const htmlContent = escapeBackticks(document.body.innerHTML); 
+        const textToCopy = "document.body.innerHTML += `" + htmlContent + "`";
+
+        await navigator.clipboard.writeText(textToCopy);
+        alert("HTML страницы скопирован!");
+    } catch (err) {
+        console.error("Ошибка копирования:", err);
+    }
+});
+
+
